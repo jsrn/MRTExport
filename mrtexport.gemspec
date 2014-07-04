@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'mrtexport'
-  s.version     = '0.0.5'
+  s.version     = '0.0.6'
   s.date        = '2014-07-04'
   s.summary     = "A renderer for MRT files."
   s.description = "An exporter/renderer for .mrt report files."

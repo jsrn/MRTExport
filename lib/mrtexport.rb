@@ -222,7 +222,7 @@ class MRTExport
 
     data = Base64::decode64(node.xpath("Image").text)
 
-    File.open("/tmp/mrt_to_pdf_img",'w') { |file| file.puts data }
+    File.open("/tmp/mrt_to_pdf_img",'wb') { |file| file.puts data }
 
     @pdf.image "/tmp/mrt_to_pdf_img", :at => [x, 0 + h], :width => w 
 
