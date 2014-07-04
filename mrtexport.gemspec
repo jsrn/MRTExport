@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'mrtexport'
-  s.version     = '0.0.2'
+  s.version     = '0.0.4'
   s.date        = '2014-07-04'
   s.summary     = "A renderer for MRT files."
   s.description = "An exporter/renderer for .mrt report files."
@@ -16,8 +16,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/jsrn/MRTExport'
   s.license       = 'MIT'
 
-  s.add_runtime_dependency "prawn", '~> 0'
-  s.add_runtime_dependency "nokogiri", '~> 0'
-  s.add_runtime_dependency "mysql2", '~> 0'
-  s.add_runtime_dependency "base64", '~> 0'
+  s.add_dependency "prawn", '~> 0'
+  s.add_dependency "nokogiri", '~> 0'
+  s.add_dependency "mysql2", '~> 0'
 end
