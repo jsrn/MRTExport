@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 class DatabaseDatabaseBuilder
   def DatabaseDatabaseBuilder.get_database_database(document)
     connections = {}

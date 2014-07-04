@@ -1,9 +1,12 @@
 #!/usr/bin/env ruby
+
+# Dependencies
 require "prawn"
 require "nokogiri"
 require "mysql2"
 require "base64"
 
+# Included files
 require "dbdb_builder"
 require "data_band"
 require "stylist"
