@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/jsrn/MRTExport'
   s.license       = 'MIT'
 
-  s.add_runtime_dependency "prawn", '>= 1.1.0'
-  s.add_runtime_dependency "nokogiri", '>= 1.6.2.1'
-  s.add_runtime_dependency "mysql2", '>= 0.3.16'
+  s.add_runtime_dependency "prawn",    '~> 1.1', '>= 1.1.0'
+  s.add_runtime_dependency "nokogiri", '~> 1.6', '>= 1.6.2.1'
+  s.add_runtime_dependency "mysql2",   '~> 0.3', '>= 0.3.16'
 end
