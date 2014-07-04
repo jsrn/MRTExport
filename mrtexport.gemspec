@@ -6,7 +6,13 @@ Gem::Specification.new do |s|
   s.description = "An exporter/renderer for .mrt report files."
   s.authors     = ["jsrn"]
   s.email       = 'james.srn@gmail.com'
-  s.files       = ["lib/mrtexport.rb"]
+  s.files       = [
+                    "lib/mrtexport.rb",
+                    "lib/dbdb_builder.rb",
+                    "lib/data_band.rb",
+                    "lib/stylist.rb",
+                    "lib/util.rb"
+                  ]
   s.homepage    = 'https://github.com/jsrn/MRTExport'
   s.license       = 'MIT'
 end

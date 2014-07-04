@@ -1,3 +1,4 @@
-reports/*.mrt
-reports/*.pdf
-reports/*.jpg
+test/test_reports/*.mrt
+test/test_output/*.pdf
+
+*.gem
