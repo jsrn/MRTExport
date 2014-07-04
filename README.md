@@ -1,6 +1,6 @@
 # MRTExport
 
-**Now in gem form!**
+*Now in gem form!*
 
 ## About
 
