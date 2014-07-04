@@ -1,4 +1,8 @@
-# MRT to PDF
+# MRTExport
+
+**Now in gem form!**
+
+## About
 
 Quick and dirty script for basic .mrt to .pdf export. The code is pretty appalling, and it only really works for the small test reports I've used. On the off chance that this is of interest to anyone else on the planet, pull requests are welcome!
 
