@@ -125,7 +125,6 @@ class MRTExport
       end
     end
 
-    puts "OUTPUT FILE: #{@output_file}"
     @pdf.render_file @output_file
   end
 
