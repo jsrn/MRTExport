@@ -7,9 +7,9 @@ require "mysql2"
 require "base64"
 
 # Included files
-require "dbdb_builder"
-require "data_band"
-require "stylist"
+require_relative "dbdb_builder"
+require_relative "data_band"
+require_relative "stylist"
 
 class MRTExport
   def initialize(params)
@@ -280,6 +280,8 @@ if __FILE__ == $0
     puts "USAGE:"
     puts "./mrttopdf.rb <report file> <output file> <replacement 1> .. <replacement n>"
     exit
+  elsif ARGV[1] == "--version"
+    puts "0.0.1"
   end
 
   report_file = ARGV[0]
