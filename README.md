@@ -8,7 +8,7 @@ Quick and dirty script for basic .mrt to .pdf export. The code is pretty appalli
 
 ## Usage
 
-```
+```ruby
 MRTExport.new({
   :report_file   => "/path/to/report.mrt",
   :output_file   => "/path/to/output.pdf",
