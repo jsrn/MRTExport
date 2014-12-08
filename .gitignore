@@ -1,4 +1,4 @@
 test/test_reports/*.mrt
-test/test_output/*.pdf
+test/output/*.pdf
 
 *.gem
