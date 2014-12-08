@@ -5,7 +5,7 @@ task :test do
 end
 
 task :clean do
-  `rm test/test_output/*.pdf`
+  `rm test/output/*.pdf`
 end
 
 task :default => :test
