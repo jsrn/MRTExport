@@ -9,7 +9,6 @@ describe DataSource, "#data sources" do
     data_sources = {}
 
     data_source_container = @xml_doc.xpath("//DataSources")
-    data_source_count = data_source_container.attribute("count")
 
     data_source_container.xpath("./*").each do |data_source_node|
       expect(DataSource.new(data_source_node)).to be_a DataSource
