@@ -10,6 +10,8 @@ require "base64"
 require_relative "dbdb_builder"
 require_relative "data_band"
 require_relative "stylist"
+require_relative "util"
+include Utility
 
 class MRTExport
   attr_accessor :report_file
@@ -27,20 +29,39 @@ class MRTExport
   end
 
   def run
-    puts "[+] Compiling new report: #{@report_file}"
+    check_settings
+
+    whisper "[+] Compiling new report: #{@report_file}"
 
     @xml_doc = Nokogiri::XML(File.open(@report_file))
 
     @sql_connections = DatabaseDatabaseBuilder.get_database_database(@xml_doc)
     @data_sources    = DatabaseDatabaseBuilder.get_data_sources(@xml_doc)
 
-    puts @sql_connections
+    whisper @sql_connections
 
     initialize_database_connection if @sql_connections.length > 0
 
     @y_off = 0
 
     generate_pdf
+  end
+
+  def check_settings
+    report_file_valid
+    output_file_valid
+  end
+
+  def report_file_valid
+    unless @report_file and File.file?(@report_file)
+      throw :report_file_invalid
+    end
+  end
+
+  def output_file_valid
+    unless @output_file and Pathname.new(File.dirname("dsf")).writable?
+      throw :output_file_invalid
+    end
   end
 
   def initialize_database_connection
@@ -72,14 +93,14 @@ class MRTExport
     @replacements.each do |key, val|
       sql.sub!("{#{key}}", val)
     end
-    
+
     text = ""
 
     rs = @sql_connection.query sql
     rs.each do |r|
       text = r[query_field]
       text = Util.number_format(text) if Util.is_number?(text)
-    end 
+    end
 
     return text
   end
@@ -89,9 +110,9 @@ class MRTExport
 
     @xml_doc.xpath("//Pages/*").each do |page|
       # List bands bands
-      puts "[*] listing report bands"
+      whisper "[*] listing report bands"
       page.xpath("./Components/*[contains(., 'Band')]").each do |band|
-        puts "    - #{band.name}"
+        whisper "    - #{band.name}"
       end
 
       # render out of band stuff
@@ -107,17 +128,17 @@ class MRTExport
       # but we want to do bands in a specific order!
       # Start with header band
       page.xpath("./Components/*[contains(., 'ReportTitleBand')]").each do |band|
-        puts "[*] Doing band: #{band.name}, ref: #{band.attribute("Ref")}"
+        whisper "[*] Doing band: #{band.name}, ref: #{band.attribute("Ref")}"
         render_band(band)
       end
 
       page.xpath("./Components/*[contains(., 'HeaderBand')]").each do |band|
-        puts "[*] Doing band: #{band.name}, ref: #{band.attribute("Ref")}"
+        whisper "[*] Doing band: #{band.name}, ref: #{band.attribute("Ref")}"
         render_band(band)
       end
 
       page.xpath("./Components/*[contains(., 'DataBand')]").each do |band|
-        puts "[*] Doing band: #{band.name}, ref: #{band.attribute("Ref")}"
+        whisper "[*] Doing band: #{band.name}, ref: #{band.attribute("Ref")}"
         #render_band(band)
         data_band_renderer = DataBandRenderer.new(
           band,
@@ -132,7 +153,7 @@ class MRTExport
       end
 
       page.xpath("./Components/*[contains(., 'FooterBand')]").each do |band|
-        puts "[*] Doing band: #{band.name}, ref: #{band.attribute("Ref")}"
+        whisper "[*] Doing band: #{band.name}, ref: #{band.attribute("Ref")}"
         render_band(band)
       end
     end

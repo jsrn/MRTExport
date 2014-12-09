@@ -16,4 +16,12 @@ describe MRTExport, "#internals" do
     exporter = MRTExport.new
     expect(exporter.export_format).to match "pdf"
   end
+
+  it "exits cleanly if any of the important fields are missing" do
+    exporter = MRTExport.new
+    expect{exporter.run}.to throw_symbol(:report_file_invalid)
+
+    exporter.report_file = "#{File.dirname(__FILE__)}/test_reports/simple.mrt"
+    expect{exporter.run}.to throw_symbol(:output_file_invalid)
+  end
 end

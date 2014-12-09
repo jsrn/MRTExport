@@ -15,3 +15,9 @@ class Util
     '%.2f' % number.to_f
   end
 end
+
+module Utility
+  def whisper(string)
+    puts string if @debug
+  end
+end
