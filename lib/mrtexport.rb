@@ -12,12 +12,21 @@ require_relative "data_band"
 require_relative "stylist"
 
 class MRTExport
-  def initialize(params)
+  attr_accessor :report_file
+  attr_accessor :output_file
+  attr_accessor :export_format
+  attr_accessor :replacements
+  attr_accessor :debug
+
+  def initialize(params={})
     @report_file   = params[:report_file]
     @output_file   = params[:output_file]
-    @export_format = params[:export_format]
+    @export_format = params[:export_format] || "pdf"
     @replacements  = params[:replacements]
-    
+    @debug         = false
+  end
+
+  def run
     puts "[+] Compiling new report: #{@report_file}"
 
     @xml_doc = Nokogiri::XML(File.open(@report_file))

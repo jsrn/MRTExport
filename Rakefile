@@ -1,7 +1,5 @@
 task :test do
-  Dir["test/*_spec.rb"].each do |file|
-    puts `rspec #{file}`
-  end
+  puts `rspec test/`
 end
 
 task :clean do
