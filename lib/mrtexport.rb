@@ -25,14 +25,11 @@ class MRTExport
   end
 
   def run
-    check_settings
-
     whisper "[+] Compiling new report: #{@report_file}"
 
-    @xml_doc = Nokogiri::XML(File.open(@report_file))
-
+    check_settings
+    generate_xml
     prepare_database_connections
-
     generate_pdf
   end
 
@@ -101,6 +98,10 @@ class MRTExport
     end
 
     return text
+  end
+
+  def generate_xml
+    @xml_doc = Nokogiri::XML(File.open(@report_file))
   end
 
   def generate_pdf
