@@ -1,6 +1,6 @@
 require_relative '../lib/mrtexport.rb'
 
-describe MRTExport, "#score" do
+describe MRTExport, "#outputs" do
   it "returns expected output for complex report" do
     MRTExport.new({
       :report_file   => "#{File.dirname(__FILE__)}/test_reports/complex.mrt",
