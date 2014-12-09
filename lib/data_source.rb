@@ -3,13 +3,15 @@ require 'nokogiri'
 class DataSource
   attr_accessor :name, :connection_name, :columns, :query
 
-  def initialize(xml_node)
-    @xml_node = xml_node
+  def initialize(xml_node=nil)
+    if xml_node
+      @xml_node = xml_node
 
-    @name            = xml_node.xpath("Name").text
-    @connection_name = xml_node.xpath("NameInSource").text
-    @columns         = get_columns
-    @query           = xml_node.xpath("SqlCommand").text.gsub("\n", " ")
+      @name            = xml_node.xpath("Name").text
+      @connection_name = xml_node.xpath("NameInSource").text
+      @columns         = get_columns
+      @query           = xml_node.xpath("SqlCommand").text.gsub("\n", " ")
+    end
   end
 
   def get_columns
