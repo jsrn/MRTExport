@@ -7,10 +7,10 @@ require "mysql2"
 require "base64"
 
 # Included files
-require_relative "dbdb_builder"
 require_relative "data_band"
 require_relative "stylist"
 require_relative "util"
+require_relative "database"
 include Utility
 
 class MRTExport
@@ -51,8 +51,10 @@ class MRTExport
   end
 
   def prepare_database_connections
-    @sql_connections = DatabaseDatabaseBuilder.get_database_database(@xml_doc)
-    @data_sources    = DatabaseDatabaseBuilder.get_data_sources(@xml_doc)
+    @database = Database.new(@xml_doc)
+
+    @sql_connections = @database.connections
+    @data_sources    = @database.data_sources
 
     whisper @sql_connections
 

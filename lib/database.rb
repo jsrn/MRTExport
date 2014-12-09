@@ -1,8 +1,12 @@
-class DatabaseDatabaseBuilder
-  def DatabaseDatabaseBuilder.get_database_database(document)
+class Database
+  def initialize(xml_doc)
+    @xml_doc = xml_doc
+  end
+
+  def connections
     connections = {}
 
-    document.xpath("//Dictionary/Databases/*").each do |database|
+    @xml_doc.xpath("//Dictionary/Databases/*").each do |database|
       name = database.xpath("Name").text
       connection_string = database.xpath("ConnectionString").text
 
@@ -12,10 +16,10 @@ class DatabaseDatabaseBuilder
     return connections
   end
 
-  def DatabaseDatabaseBuilder.get_data_sources(doc)
+  def data_sources
     data_sources = {}
 
-    data_source_container = doc.xpath("//DataSources")
+    data_source_container = @xml_doc.xpath("//DataSources")
     data_source_count = data_source_container.attribute("count")
 
     data_source_container.xpath("./*").each do |data_source_node|
