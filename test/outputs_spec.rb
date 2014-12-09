@@ -11,6 +11,16 @@ describe MRTExport, "#outputs" do
     exporter.run
   end
 
+  it "returns expected output for multi-db report" do
+    exporter = MRTExport.new({
+      :report_file   => "#{File.dirname(__FILE__)}/test_reports/multidb.mrt",
+      :output_file   => "#{File.dirname(__FILE__)}/output/multidb_out.pdf",
+      :export_format => "pdf",
+      :replacements  => {"QuoteID" => "1"}
+    })
+    exporter.run
+  end
+
   it "returns expected output for simple report" do
     exporter = MRTExport.new({
       :report_file   => "#{File.dirname(__FILE__)}/test_reports/simple.mrt",
