@@ -35,14 +35,7 @@ class MRTExport
 
     @xml_doc = Nokogiri::XML(File.open(@report_file))
 
-    @sql_connections = DatabaseDatabaseBuilder.get_database_database(@xml_doc)
-    @data_sources    = DatabaseDatabaseBuilder.get_data_sources(@xml_doc)
-
-    whisper @sql_connections
-
-    initialize_database_connection if @sql_connections.length > 0
-
-    @y_off = 0
+    prepare_database_connections
 
     generate_pdf
   end
@@ -62,6 +55,15 @@ class MRTExport
     unless @output_file and Pathname.new(File.dirname("dsf")).writable?
       throw :output_file_invalid
     end
+  end
+
+  def prepare_database_connections
+    @sql_connections = DatabaseDatabaseBuilder.get_database_database(@xml_doc)
+    @data_sources    = DatabaseDatabaseBuilder.get_data_sources(@xml_doc)
+
+    whisper @sql_connections
+
+    initialize_database_connection if @sql_connections.length > 0
   end
 
   def initialize_database_connection
@@ -106,6 +108,8 @@ class MRTExport
   end
 
   def generate_pdf
+    @y_off = 0
+
     @pdf = Prawn::Document.new
 
     @xml_doc.xpath("//Pages/*").each do |page|
