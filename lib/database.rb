@@ -28,6 +28,7 @@ class Database
 
     data_source_container.xpath("./*").each do |data_source_node|
       source = DataSource.new(data_source_node)
+      @sources << source
 
       data_source = {}
       data_source["columns"] = source.columns
