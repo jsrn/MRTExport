@@ -6,7 +6,7 @@ describe MRTExport, "#outputs" do
       :report_file   => "#{File.dirname(__FILE__)}/test_reports/complex.mrt",
       :output_file   => "#{File.dirname(__FILE__)}/output/complex_out.pdf",
       :export_format => "pdf",
-      :replacements  => {"QuoteID" => "1"}
+      :replacements  => {"QuoteID" => "289540015"}
     })
     exporter.run
   end
@@ -16,7 +16,7 @@ describe MRTExport, "#outputs" do
       :report_file   => "#{File.dirname(__FILE__)}/test_reports/multidb.mrt",
       :output_file   => "#{File.dirname(__FILE__)}/output/multidb_out.pdf",
       :export_format => "pdf",
-      :replacements  => {"QuoteID" => "1"}
+      :replacements  => {"QuoteID" => "289540015"}
     })
     exporter.run
   end
