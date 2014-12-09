@@ -11,4 +11,9 @@ describe MRTExport, "#internals" do
     exporter.debug = true
     expect(exporter.debug).to be true
   end
+
+  it "defaults to pdf" do
+    exporter = MRTExport.new
+    expect(exporter.export_format).to match "pdf"
+  end
 end
