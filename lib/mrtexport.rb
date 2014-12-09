@@ -45,7 +45,7 @@ class MRTExport
   end
 
   def output_file_valid
-    unless @output_file and Pathname.new(File.dirname("dsf")).writable?
+    unless @output_file and Pathname.new(File.dirname(@output_file)).writable?
       throw :output_file_invalid
     end
   end
