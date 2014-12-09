@@ -27,4 +27,12 @@ describe MRTExport, "#internals" do
     exporter.output_file = "#{File.dirname(__FILE__)}/output/simple_out.pdf"
     exporter.run
   end
+
+  it "exits properly with an unwritable file" do
+    exporter = MRTExport.new
+    exporter.report_file = "#{File.dirname(__FILE__)}/test_reports/simple.mrt"
+    exporter.output_file = "/etc/issue"
+
+    expect{exporter.run}.to throw_symbol(:output_file_invalid)
+  end
 end
