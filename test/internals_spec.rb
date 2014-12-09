@@ -23,5 +23,8 @@ describe MRTExport, "#internals" do
 
     exporter.report_file = "#{File.dirname(__FILE__)}/test_reports/simple.mrt"
     expect{exporter.run}.to throw_symbol(:output_file_invalid)
+
+    exporter.output_file = "#{File.dirname(__FILE__)}/output/simple_out.pdf"
+    exporter.run
   end
 end
