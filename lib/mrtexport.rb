@@ -14,11 +14,7 @@ require_relative "util"
 include Utility
 
 class MRTExport
-  attr_accessor :report_file
-  attr_accessor :output_file
-  attr_accessor :export_format
-  attr_accessor :replacements
-  attr_accessor :debug
+  attr_accessor :report_file, :output_file, :export_format, :replacements, :debug
 
   def initialize(params={})
     @report_file   = params[:report_file]
