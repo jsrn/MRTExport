@@ -22,7 +22,7 @@ class DataBandRenderer
 
   def prepare_dataset
     data_source = @data.xpath("DataSourceName").text
-    sql = @data_sources[data_source]["sql"]
+    sql = @data_sources[data_source].query
 
     @replacements.each do |key, val|
       sql.sub!("{#{key}}", val)

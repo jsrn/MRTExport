@@ -51,8 +51,8 @@ class MRTExport
   end
 
   def prepare_database_connections
-    @database = Database.new(@xml_doc)
-    @data_sources    = @database.data_sources
+    @database     = Database.new(@xml_doc)
+    @data_sources = @database.sources
   end
 
   def get_value_from_db(name)
@@ -60,7 +60,7 @@ class MRTExport
 
     connection = @database.connection_from_source(source_name)
 
-    sql = @data_sources[source_name]["sql"]
+    sql = @data_sources[source_name].query
 
     @replacements.each do |key, val|
       sql.sub!("{#{key}}", val)

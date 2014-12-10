@@ -5,7 +5,7 @@ class Database
 
   def initialize(xml_doc)
     @xml_doc     = xml_doc
-    @sources     = []
+    @sources     = get_data_sources
     @connections = get_connections
   end
 
@@ -33,27 +33,20 @@ class Database
     return connections
   end
 
-  def data_sources
-    data_sources = {}
+  def get_data_sources
+    sources = {}
 
     data_source_container = @xml_doc.xpath("//DataSources")
 
     data_source_container.xpath("./*").each do |data_source_node|
       source = DataSource.new(data_source_node)
-      @sources << source
-
-      data_source = {}
-      data_source["columns"] = source.columns
-      data_source["sql"]     = source.query
-
-      data_sources[source.name] = data_source
+      sources[source.name] = source
     end
 
-    return data_sources
+    return sources
   end
 
   def connection_from_source(source_name)
-    source = @sources.find { |source| source.name == source_name}
-    @connections[source.connection_name]
+    @connections[@sources[source_name].connection_name]
   end
 end
