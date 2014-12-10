@@ -1,12 +1,10 @@
 require_relative "util.rb"
 
 class DataBandRenderer
-  def initialize(data, pdf, database, replacements, data_sources, y_off)
+  def initialize(data, pdf, database, y_off)
     @data = data
     @pdf = pdf
     @database = database
-    @data_sources = data_sources
-    @replacements = replacements
     @y_off = y_off
 
     @row_data = prepare_dataset
@@ -21,14 +19,10 @@ class DataBandRenderer
   end
 
   def prepare_dataset
-    data_source = @data.xpath("DataSourceName").text
-    sql = @data_sources[data_source].query
+    source_name = @data.xpath("DataSourceName").text
+    sql = @database.sources[source_name].query
 
-    @replacements.each do |key, val|
-      sql.sub!("{#{key}}", val)
-    end
-
-    connection = @database.connection_from_source(data_source)
+    connection = @database.connection_from_source(source_name)
 
     return connection.query sql
   end
