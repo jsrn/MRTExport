@@ -56,12 +56,7 @@ class MRTExport
   end
 
   def get_value_from_db(name)
-    name.sub! "{", ""
-    name.sub! "}", ""
-
-    query_parts = name.split(".")
-    source_name  = query_parts[0]
-    query_field = query_parts[1]
+    source_name, query_field = name.tr!("{}","").split(".")
 
     connection = @database.connection_from_source(source_name)
 
