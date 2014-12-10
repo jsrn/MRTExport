@@ -1,4 +1,5 @@
 require_relative "data_source"
+require_relative "util"
 
 class Database
   attr_accessor :sources, :connections
@@ -48,5 +49,21 @@ class Database
 
   def connection_from_source(source_name)
     @connections[@sources[source_name].connection_name]
+  end
+
+  def get_value(source, field)
+    connection = connection_from_source(source)
+
+    sql = @sources[source].query
+
+    text = ""
+
+    rs = connection.query sql
+    rs.each do |r|
+      text = r[field]
+      text = Util.number_format(text) if Util.is_number?(text)
+    end
+
+    return text
   end
 end

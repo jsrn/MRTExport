@@ -54,24 +54,6 @@ class MRTExport
     @database = Database.new(@xml_doc)
   end
 
-  def get_value_from_db(name)
-    source_name, query_field = name.tr!("{}","").split(".")
-
-    connection = @database.connection_from_source(source_name)
-
-    sql = @database.sources[source_name].query
-
-    text = ""
-
-    rs = connection.query sql
-    rs.each do |r|
-      text = r[query_field]
-      text = Util.number_format(text) if Util.is_number?(text)
-    end
-
-    return text
-  end
-
   def generate_xml
     xml = File.open(@report_file).read
     xml = perform_replacements(xml)
@@ -122,7 +104,6 @@ class MRTExport
 
       page.xpath("./Components/*[contains(., 'DataBand')]").each do |band|
         whisper "[*] Doing band: #{band.name}, ref: #{band.attribute("Ref")}"
-        #render_band(band)
         data_band_renderer = DataBandRenderer.new(
           band,
           @pdf,
@@ -263,7 +244,10 @@ class MRTExport
 
       # SQL replacements
       if text.include?("{")
-        text.gsub!(/{.*}/) { |m| get_value_from_db(m) }
+        text.gsub!(/{.*}/) do |datum|
+          source, field = datum.tr!("{}","").split(".")
+          @database.get_value(source, field)
+        end
       end
 
       # Do painting
