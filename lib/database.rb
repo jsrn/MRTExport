@@ -1,12 +1,12 @@
 require_relative "data_source"
 
 class Database
-  attr_accessor :sources, :conns
+  attr_accessor :sources, :connections
 
   def initialize(xml_doc)
-    @xml_doc = xml_doc
-    @sources = []
-    @conns   = get_connections
+    @xml_doc     = xml_doc
+    @sources     = []
+    @connections = get_connections
   end
 
   def get_connections
@@ -54,6 +54,6 @@ class Database
 
   def connection_from_source(source_name)
     source = @sources.find { |source| source.name == source_name}
-    @conns[source.connection_name]
+    @connections[source.connection_name]
   end
 end
