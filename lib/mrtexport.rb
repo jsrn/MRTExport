@@ -29,7 +29,7 @@ class MRTExport
 
     check_settings
     generate_xml
-    prepare_database_connections
+    prepare_database
     generate_pdf
   end
 
@@ -50,9 +50,8 @@ class MRTExport
     end
   end
 
-  def prepare_database_connections
-    @database     = Database.new(@xml_doc)
-    @data_sources = @database.sources
+  def prepare_database
+    @database = Database.new(@xml_doc)
   end
 
   def get_value_from_db(name)
@@ -60,7 +59,7 @@ class MRTExport
 
     connection = @database.connection_from_source(source_name)
 
-    sql = @data_sources[source_name].query
+    sql = @database.sources[source_name].query
 
     @replacements.each do |key, val|
       sql.sub!("{#{key}}", val)
@@ -123,7 +122,7 @@ class MRTExport
           @pdf,
           @database,
           @replacements,
-          @data_sources,
+          @database.sources,
           @y_off
         )
 
