@@ -19,6 +19,6 @@ describe Database, "#database" do
     xml_doc = Nokogiri::XML(File.open("#{File.dirname(__FILE__)}/test_reports/multidb.mrt"))
     database = Database.new(xml_doc)
 
-    expect(database.data_sources).to be_a Hash
+    expect(database.sources).to be_a Hash
   end
 end

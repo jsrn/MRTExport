@@ -29,7 +29,7 @@ class MRTExport
 
     check_settings
     generate_xml
-    prepare_database_connections
+    prepare_database
     generate_pdf
   end
 
@@ -50,42 +50,16 @@ class MRTExport
     end
   end
 
-  def prepare_database_connections
+  def prepare_database
     @database = Database.new(@xml_doc)
-
-    @sql_connections = @database.connections
-    @data_sources    = @database.data_sources
-
-    whisper @sql_connections
-
-    initialize_database_connection if @sql_connections.length > 0
-  end
-
-  def initialize_database_connection
-    sql_connection_string = @sql_connections["Localhost"]
-    sql_connection_array = {}
-
-    sql_connection_string.split(";").each do |x|
-      sql_connection_array[x.split("=")[0]] = x.split("=")[1]
-    end
-
-    @sql_connection = Mysql2::Client.new(
-      :host     => sql_connection_array["Server"],
-      :username => sql_connection_array["User"],
-      :password => sql_connection_array["Password"],
-      :database => sql_connection_array["Database"]
-    )
   end
 
   def get_value_from_db(name)
-    name.sub! "{", ""
-    name.sub! "}", ""
+    source_name, query_field = name.tr!("{}","").split(".")
 
-    query_parts = name.split(".")
-    query_name  = query_parts[0]
-    query_field = query_parts[1]
+    connection = @database.connection_from_source(source_name)
 
-    sql = @data_sources[query_name]["sql"]
+    sql = @database.sources[source_name].query
 
     @replacements.each do |key, val|
       sql.sub!("{#{key}}", val)
@@ -93,7 +67,7 @@ class MRTExport
 
     text = ""
 
-    rs = @sql_connection.query sql
+    rs = connection.query sql
     rs.each do |r|
       text = r[query_field]
       text = Util.number_format(text) if Util.is_number?(text)
@@ -146,9 +120,9 @@ class MRTExport
         data_band_renderer = DataBandRenderer.new(
           band,
           @pdf,
-          @sql_connection,
+          @database,
           @replacements,
-          @data_sources,
+          @database.sources,
           @y_off
         )
 
