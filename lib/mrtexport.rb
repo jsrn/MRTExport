@@ -20,7 +20,7 @@ class MRTExport
     @report_file   = params[:report_file]
     @output_file   = params[:output_file]
     @export_format = params[:export_format] || "pdf"
-    @replacements  = params[:replacements]
+    @replacements  = params[:replacements]  || {}
     @debug         = false
   end
 
@@ -61,10 +61,6 @@ class MRTExport
 
     sql = @database.sources[source_name].query
 
-    @replacements.each do |key, val|
-      sql.sub!("{#{key}}", val)
-    end
-
     text = ""
 
     rs = connection.query sql
@@ -77,7 +73,17 @@ class MRTExport
   end
 
   def generate_xml
-    @xml_doc = Nokogiri::XML(File.open(@report_file))
+    xml = File.open(@report_file).read
+    xml = perform_replacements(xml)
+    @xml_doc = Nokogiri::XML(xml)
+  end
+
+  def perform_replacements(xml_string)
+    @replacements.each do |key, val|
+      xml_string.gsub!("{#{key}}", val)
+    end
+
+    xml_string
   end
 
   def generate_pdf
@@ -121,8 +127,6 @@ class MRTExport
           band,
           @pdf,
           @database,
-          @replacements,
-          @database.sources,
           @y_off
         )
 
