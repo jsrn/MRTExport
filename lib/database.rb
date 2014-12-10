@@ -6,29 +6,27 @@ class Database
   def initialize(xml_doc)
     @xml_doc = xml_doc
     @sources = []
-    @conns   = {}
+    @conns   = get_connections
   end
 
-  def connections
+  def get_connections
     connections = {}
 
     @xml_doc.xpath("//Dictionary/Databases/*").each do |database|
-      name = database.xpath("Name").text
+      name              = database.xpath("Name").text
       connection_string = database.xpath("ConnectionString").text
 
-      connections[name] = connection_string
-
-      sql_connection_array = {}
+      conn_details = {}
 
       connection_string.split(";").each do |x|
-        sql_connection_array[x.split("=")[0]] = x.split("=")[1]
+        conn_details[x.split("=")[0]] = x.split("=")[1]
       end
 
-      @conns[name] = Mysql2::Client.new(
-        :host     => sql_connection_array["Server"],
-        :username => sql_connection_array["User"],
-        :password => sql_connection_array["Password"],
-        :database => sql_connection_array["Database"]
+      connections[name] = Mysql2::Client.new(
+        :host     => conn_details["Server"],
+        :username => conn_details["User"],
+        :password => conn_details["Password"],
+        :database => conn_details["Database"]
       )
     end
 
