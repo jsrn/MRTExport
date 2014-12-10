@@ -292,7 +292,6 @@ if __FILE__ == $0
   MRTExport.new({
     :report_file   => report_file,
     :output_file   => output_file,
-    :export_format => "pdf",
     :replacements  => replacements
   })
 end
