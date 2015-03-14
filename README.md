@@ -1,5 +1,7 @@
 # MRTExport
 
+**Note: This repository is no longer maintained. It's pretty limited in its current state, but if anyone wants to take it over, feel free.**
+
 This gem is for operating on and rendering .mrt report files. It supports most of the obvious text formatting features, as well as database queries and parameters.
 
 Currently, only MySQL data connections are supported.
